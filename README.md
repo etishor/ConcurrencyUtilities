@@ -2,6 +2,8 @@
 
 .NET Concurrency Utilities
 
+[![Build status](https://ci.appveyor.com/api/projects/status/n7j2wym7575pf130?svg=true)](https://ci.appveyor.com/project/etishor/concurrencyutilities) 
+
 Available utilities:
 
 * VolatileLong
