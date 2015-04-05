@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
+    <metadata>
+        <id>ConcurrencyUtils</id>
+        <version>0.1.0</version>
+        <title>ConcurrencyUtils</title>
+        <authors>iulian.margarintescu</authors>
+        <owners>Iulian Margarintescu</owners>
+        <licenseUrl>https://github.com/etishor/ConcurrencyUtilities/blob/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/etishor/ConcurrencyUtilities/</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>This libary provides a set of classes usefull for performing efficien concurrent operations. Includes a port of Java's LongAdder and Striped64 classes.</description>
+        <summary>Utilities for performing efficien concurrent operations.</summary>
+        <copyright>Iulian Margarintescu</copyright>
+        <tags>concurrency, utilities, LongAdder, AtomicLong, Striped64, Volatile</tags>
+    </metadata>
+    <files>
+      <file src="bin\Release\ConcurrencyUtilities.dll" target="lib\net45\ConcurrencyUtilities.dll" />
+      <file src="bin\Release\ConcurrencyUtilities.pdb" target="lib\net45\ConcurrencyUtilities.pdb" />
+      <file src="bin\Release\ConcurrencyUtilities.XML" target="lib\net45\ConcurrencyUtilities.XML" />      
+    </files>
+</package>
