@@ -16,9 +16,9 @@ This utilities have been introduced in the [Metrics.NET](https://github.com/etis
 
 ## Install
 
-To minimize number of dependencies, this library is published on NuGet as source files.
+To start using the library, install the [ConcurrencyUtils](https://www.nuget.org/packages/ConcurrencyUtils/) NuGet package, using the package management UI or from the package management console run:
 
-
+    Install-Package ConcurrencyUtils
 
 ## License
 
