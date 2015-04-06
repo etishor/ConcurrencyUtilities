@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Xunit;
 
 namespace ConcurrencyUtilities.Tests
@@ -32,8 +30,7 @@ namespace ConcurrencyUtilities.Tests
         public void AtomicLong_CanGetAndSet()
         {
             this.num.SetValue(32);
-            long val = this.num.GetAndSet(64);
-            val.Should().Be(32);
+            this.num.GetAndSet(64).Should().Be(32);
             this.num.GetValue().Should().Be(64);
         }
 
@@ -41,8 +38,7 @@ namespace ConcurrencyUtilities.Tests
         public void AtomicLong_CanGetAndReset()
         {
             this.num.SetValue(32);
-            long val = this.num.GetAndReset();
-            val.Should().Be(32);
+            this.num.GetAndReset().Should().Be(32);
             this.num.GetValue().Should().Be(0);
         }
 
@@ -51,16 +47,18 @@ namespace ConcurrencyUtilities.Tests
         {
             this.num.Increment().Should().Be(1L);
             this.num.GetValue().Should().Be(1L);
-
         }
 
         [Fact]
         public void AtomicLong_CanBeIncrementedMultipleTimes()
         {
             this.num.Increment().Should().Be(1L);
-            this.num.Increment().Should().Be(2L);
-            this.num.Increment().Should().Be(3L);
+            this.num.GetValue().Should().Be(1L);
 
+            this.num.Increment().Should().Be(2L);
+            this.num.GetValue().Should().Be(2L);
+
+            this.num.Increment().Should().Be(3L);
             this.num.GetValue().Should().Be(3L);
         }
 
@@ -69,7 +67,6 @@ namespace ConcurrencyUtilities.Tests
         {
             this.num.Decrement().Should().Be(-1L);
             this.num.GetValue().Should().Be(-1L);
-
         }
 
         [Fact]
@@ -97,7 +94,36 @@ namespace ConcurrencyUtilities.Tests
             y.GetValue().Should().Be(10L);
         }
 
-        
+        [Fact]
+        public void AtomicLong_CanGetAndAdd()
+        {
+            this.num.SetValue(10L);
+            this.num.GetAndAdd(5L).Should().Be(10L);
+            this.num.GetValue().Should().Be(15L);
+        }
 
+        [Fact]
+        public void AtomicLong_CanGetAndIncrement()
+        {
+            this.num.SetValue(10L);
+
+            this.num.GetAndIncrement().Should().Be(10L);
+            this.num.GetValue().Should().Be(11L);
+
+            this.num.GetAndIncrement(5L).Should().Be(11L);
+            this.num.GetValue().Should().Be(16L);
+        }
+
+        [Fact]
+        public void AtomicLong_CanGetAndDecrement()
+        {
+            this.num.SetValue(10L);
+
+            this.num.GetAndDecrement().Should().Be(10L);
+            this.num.GetValue().Should().Be(9L);
+
+            this.num.GetAndDecrement(5L).Should().Be(9L);
+            this.num.GetValue().Should().Be(4L);
+        }
     }
 }
