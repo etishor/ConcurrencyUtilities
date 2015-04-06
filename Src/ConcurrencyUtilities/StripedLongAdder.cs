@@ -31,13 +31,23 @@ namespace ConcurrencyUtilities
     /// </summary>
     public sealed class StripedLongAdder : Striped64, ValueAdder<long>
     {
+        /// <summary>
+        /// Creates a new instance of the adder with initial value of zero.
+        /// </summary>
         public StripedLongAdder() { }
 
+        /// <summary>
+        /// Creates a new instance of the adder with initial <paramref name="value"/>.
+        /// </summary>
         public StripedLongAdder(long value)
         {
             Add(value);
         }
 
+        /// <summary>
+        /// Returns the current value of this adder. This method sums all the buckets and returns the result.
+        /// </summary>
+        /// <returns>The current value recored by this adder.</returns>
         public long GetValue()
         {
             var @as = this.cells; Cell a;
@@ -53,6 +63,14 @@ namespace ConcurrencyUtilities
             return sum;
         }
 
+        /// <summary>
+        /// Returns the current value of this adder and resets the value to zero.
+        /// This method sums all the buckets, resets their value and returns the result.
+        /// </summary>
+        /// <remarks>
+        /// This method is thread-safe. If updates happen during this method, they are either included in the final sum, or reflected in the value after the reset.
+        /// </remarks>
+        /// <returns>The current value recored by this adder.</returns>
         public long GetAndReset()
         {
             var @as = this.cells; Cell a;
@@ -70,6 +88,9 @@ namespace ConcurrencyUtilities
             return sum;
         }
 
+        /// <summary>
+        /// Resets the current value to zero.
+        /// </summary>
         public void Reset()
         {
             var @as = this.cells; Cell a;
@@ -86,26 +107,42 @@ namespace ConcurrencyUtilities
             }
         }
 
+        /// <summary>
+        /// Increment the value of this instance.
+        /// </summary>
         public void Increment()
         {
             Add(1L);
         }
 
+        /// <summary>
+        /// Increment the value of this instance with <paramref name="value"/>.
+        /// </summary>
         public void Increment(long value)
         {
             Add(value);
         }
 
+        /// <summary>
+        /// Decrement the value of this instance.
+        /// </summary>
         public void Decrement()
         {
             Add(-1L);
         }
 
+        /// <summary>
+        /// Decrement the value of this instance with <paramref name="value"/>.
+        /// </summary>
         public void Decrement(long value)
         {
             Add(-value);
         }
 
+        /// <summary>
+        /// Add <paramref name="value"/> to this instance.
+        /// </summary>
+        /// <param name="value">Value to add.</param>
         public void Add(long value)
         {
             Cell[] @as;

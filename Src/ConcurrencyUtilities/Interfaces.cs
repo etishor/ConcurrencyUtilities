@@ -1,6 +1,12 @@
 ﻿
 namespace ConcurrencyUtilities
 {
+    /*
+     * This interfaces are only used to maintain a consistent signature of the different implementations
+     *  
+     */
+
+
     internal interface ValueReader<out T>
     {
         T GetValue();
