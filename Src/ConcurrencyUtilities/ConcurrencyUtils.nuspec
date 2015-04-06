@@ -9,8 +9,8 @@
         <licenseUrl>https://github.com/etishor/ConcurrencyUtilities/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/etishor/ConcurrencyUtilities/</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>This libary provides a set of classes usefull for performing efficien concurrent operations. Includes a port of Java's LongAdder and Striped64 classes.</description>
-        <summary>Utilities for performing efficien concurrent operations.</summary>
+        <description>This library provides a set of classes useful for performing efficient concurrent operations. Includes a port of Java's LongAdder and Striped64 classes.</description>
+        <summary>Utilities for performing efficient concurrent operations.</summary>
         <copyright>Iulian Margarintescu</copyright>
         <tags>concurrency, utilities, LongAdder, AtomicLong, Striped64, Volatile</tags>
     </metadata>
