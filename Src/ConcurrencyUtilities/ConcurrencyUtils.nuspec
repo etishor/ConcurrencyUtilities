@@ -15,8 +15,8 @@
         <tags>concurrency, utilities, LongAdder, AtomicLong, Striped64, Volatile</tags>
     </metadata>
     <files>
-      <file src="..\..\bin\Release\ConcurrencyUtilities.dll" target="lib\net45\ConcurrencyUtilities.dll" />
-      <file src="..\..\bin\Release\ConcurrencyUtilities.pdb" target="lib\net45\ConcurrencyUtilities.pdb" />
-      <file src="..\..\bin\Release\ConcurrencyUtilities.XML" target="lib\net45\ConcurrencyUtilities.XML" />      
+      <file src="..\ConcurrencyUtilities.dll" target="lib\net45\ConcurrencyUtilities.dll" />
+      <file src="..\ConcurrencyUtilities.pdb" target="lib\net45\ConcurrencyUtilities.pdb" />
+      <file src="..\ConcurrencyUtilities.XML" target="lib\net45\ConcurrencyUtilities.XML" />      
     </files>
 </package>
