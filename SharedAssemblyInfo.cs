@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyCompanyAttribute("Iulian Margarintescu")]
 [assembly: AssemblyCopyrightAttribute("Copyright Iulian Margarintescu © 2015")]
-[assembly: AssemblyProductAttribute("ConcurrencyUtils")]
+[assembly: AssemblyProductAttribute("Concurrency Utilities")]
 [assembly: AssemblyDescriptionAttribute("Utilities for performing efficient concurrent operations")]
 [assembly: AssemblyCultureAttribute("")]
 [assembly: ComVisibleAttribute(false)]

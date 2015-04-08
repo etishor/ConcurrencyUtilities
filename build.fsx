@@ -129,6 +129,7 @@ Target "All" DoNothing
   ==> "Build"
   ==> "RunTests"
   ==> "NuGet"
+  ==> "SourceNuGet"
   ==> "All"
 
 RunTargetOrDefault "All"
