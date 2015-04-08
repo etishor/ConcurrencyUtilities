@@ -22,6 +22,10 @@ To start using the library, install the [ConcurrencyUtils](https://www.nuget.org
 
     Install-Package ConcurrencyUtils
 
+Or, if you prefer to just include the source code and avoid having a new assembly reference
+
+    Install-Package ConcurrencyUtils.Source
+
 ## License
 
 This library is release under Apache 2.0 License ( see LICENSE ) 

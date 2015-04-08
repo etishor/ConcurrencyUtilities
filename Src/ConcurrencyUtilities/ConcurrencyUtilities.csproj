@@ -60,6 +60,7 @@
     <Compile Include="Interfaces.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ConcurrencyUtils.Source.nuspec" />
     <None Include="ConcurrencyUtils.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

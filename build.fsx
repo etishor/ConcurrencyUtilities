@@ -11,21 +11,16 @@ open XUnit2Helper
 open System
 open System.IO
 
-let project = "ConcurrencyUtils"
-//let summary = "Utilities for performing efficient concurrent operations"
-//let description = "This library provides a set of classes useful for performing efficient concurrent operations. Includes a port of Java's LongAdder and Striped64 classes"
-//let authors = [ "Iulian Margarintescu" ]
-//let tags = "concurrency, utilities, LongAdder, AtomicLong, Striped64, Volatile"
-
 let solutionFile  = "ConcurrencyUtilities.sln"
 let assemblyInfoFile = ".\SharedAssemblyInfo.cs"
 
-let testAssemblies = "bin/Release/*Tests*.dll"
+let sources = "./Src/ConcurrencyUtilities/"
 
-let gitOwner = "etishor" 
-let gitHome = "https://github.com/" + gitOwner
-let gitName = project
-let gitRaw = environVarOrDefault "gitRaw" "https://raw.github.com/etishor"
+let nuspec = sources + "ConcurrencyUtils.nuspec"
+let sourcesNuspec = sources + "ConcurrencyUtils.Source.nuspec"
+let nugetOutput = "./bin/NuGet"
+
+let testAssemblies = "bin/Release/*Tests*.dll"
 
 let release = LoadReleaseNotes "CHANGELOG.md"
 
@@ -40,7 +35,7 @@ Target "AssemblyInfo" <| fun _ ->
     CreateCSharpAssemblyInfo assemblyInfoFile
             [Attribute.Company "Iulian Margarintescu"
              Attribute.Copyright ("Copyright Iulian Margarintescu © " + DateTime.Now.Year.ToString())
-             Attribute.Product project
+             Attribute.Product "Concurrency Utilities"
              Attribute.Description "Utilities for performing efficient concurrent operations"
              Attribute.Culture ""
              Attribute.ComVisible false
@@ -79,32 +74,52 @@ Target "RunTests" (fun _ ->
             Parallel = ParallelOption.Collections })
 )
 
-Target "NuGet" <| fun _ ->
-    ensureDirectory "./bin/Release/NuGet/"
-    ensureDirectory "./bin/NuGet/"
-
-    for nuspec in !! "./src/**/*.nuspec" do
-        printfn "Creating nuget packages for %s" nuspec
-
-        let project = Path.GetFileNameWithoutExtension nuspec
-        let projectDir = Path.GetDirectoryName nuspec
-        let projectFile = (!! (projectDir @@ "*.*sproj")) |> Seq.exactlyOne
-
-        let projectDllName = Path.GetFileNameWithoutExtension projectFile
-        let packages = projectDir @@ "packages.config"
-        let packageDependencies = if (fileExists packages) then (getDependencies packages) else []
+Target "SourceNuGet" <| fun _ ->
+    let workDir = "./bin/Release/NuGet.Sources/"
+    ensureDirectory workDir
+    CleanDir workDir
+    ensureDirectory nugetOutput
+    CleanDir nugetOutput
     
-        NuGet (fun p ->
-            {p with
-                Authors = ["Recognos Romania"]
-                Project = project
-                OutputPath = "./bin/NuGet/"
-                Summary = "Data Extraction Platform"
-                WorkingDir = "./bin/Release/NuGet"
-                Version = release.NugetVersion
-                Dependencies = packageDependencies
-                Publish = false })
-                nuspec
+
+    for file in !! (sources + "*.cs") do
+        let name = Path.GetFileNameWithoutExtension file
+        let content = File.ReadAllText file
+        let processed = replace "namespace ConcurrencyUtilities" "namespace $rootnamespace$" content 
+        let output = Path.Combine(workDir, (name + ".cs.pp"))
+        File.WriteAllText(output, processed)
+
+    let files = 
+        !!(workDir + "*.pp")
+        |> Seq.map (fun f ->  f,Some (@"content\App_Packages\ConcurrencyUtils."+ release.NugetVersion + @"\" + (Path.GetFileName f)), None )
+        |> Seq.toList
+
+    NuGet (fun p ->
+        {p with
+            OutputPath = nugetOutput
+            WorkingDir = workDir
+            Version = release.NugetVersion
+            Dependencies = []
+            Files = files
+            Publish = false })
+            sourcesNuspec
+        
+
+Target "NuGet" <| fun _ ->
+    let workDir = "./bin/Release/NuGet/"
+    ensureDirectory workDir
+    CleanDir workDir
+    ensureDirectory nugetOutput
+    CleanDir nugetOutput
+    
+    NuGet (fun p ->
+        {p with
+            OutputPath = nugetOutput
+            WorkingDir = workDir
+            Version = release.NugetVersion
+            Dependencies = []
+            Publish = false })
+            nuspec
 
 Target "All" DoNothing
 

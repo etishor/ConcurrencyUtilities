@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
     <metadata>
-        <id>ConcurrencyUtils</id>
-        <title>ConcurrencyUtils</title>
+        <id>ConcurrencyUtils.Source</id>
+        <title>ConcurrencyUtils Source Code</title>
         <version>@build.number@</version>
         <authors>iulian.margarintescu</authors>
         <owners>Iulian Margarintescu</owners>
@@ -14,9 +14,5 @@
         <copyright>Iulian Margarintescu</copyright>
         <tags>concurrency, utilities, LongAdder, AtomicLong, Striped64, Volatile</tags>
     </metadata>
-    <files>
-      <file src="..\ConcurrencyUtilities.dll" target="lib\net45\ConcurrencyUtilities.dll" />
-      <file src="..\ConcurrencyUtilities.pdb" target="lib\net45\ConcurrencyUtilities.pdb" />
-      <file src="..\ConcurrencyUtilities.XML" target="lib\net45\ConcurrencyUtilities.XML" />      
-    </files>
+    @files@
 </package>
