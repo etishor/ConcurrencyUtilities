@@ -48,6 +48,5 @@ namespace ConcurrencyUtilities
         T GetAndReset();
         T GetAndSet(T newValue);
         bool CompareAndSwap(T expected, T updated);
-
     }
 }

@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AtomicIntegerTests.cs" />
     <Compile Include="ConcurrencyTests.cs" />
     <Compile Include="ThreadLocalLongAdder.cs" />
     <Compile Include="StripedLongAdderTests.cs" />
