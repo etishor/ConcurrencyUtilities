@@ -47,6 +47,7 @@
     <Compile Include="..\..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="AtomicInteger.cs" />
     <Compile Include="AtomicLong.cs" />
     <Compile Include="StripedLongAdder.cs" />
     <Compile Include="PaddedAtomicLong.cs" />
