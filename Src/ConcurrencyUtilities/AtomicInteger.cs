@@ -9,7 +9,10 @@ namespace ConcurrencyUtilities
     /// <remarks>
     /// The AtomicInteger is a struct not a class and members of this type should *not* be declared readonly or changes will not be reflected in the member instance. 
     /// </remarks>
-    public struct AtomicInteger : AtomicValue<int>, ValueAdder<int>
+    public struct AtomicInteger
+#if INTERNAL_INTERFACES
+        : AtomicValue<int>, ValueAdder<int>
+#endif
     {
         private int value;
 
@@ -161,6 +164,7 @@ namespace ConcurrencyUtilities
             return Interlocked.CompareExchange(ref this.value, updated, expected) == expected;
         }
 
+#if INTERNAL_INTERFACES
         int ValueAdder<int>.GetAndReset() { return this.GetAndReset(); }
         void ValueAdder<int>.Add(int value) { this.Add(value); }
         void ValueAdder<int>.Increment() { this.Increment(); }
@@ -169,5 +173,6 @@ namespace ConcurrencyUtilities
         void ValueAdder<int>.Decrement(int value) { this.Decrement(value); }
         void ValueAdder<int>.Reset() { this.SetValue(0); }
         int ValueReader<int>.GetValue() { return this.GetValue(); }
+#endif
     }
 }

@@ -1,6 +1,7 @@
 ﻿
 namespace ConcurrencyUtilities
 {
+#if INTERNAL_INTERFACES
     /*
      * This interfaces are only used to maintain a consistent signature of the different implementations
      *  
@@ -49,4 +50,5 @@ namespace ConcurrencyUtilities
         T GetAndSet(T newValue);
         bool CompareAndSwap(T expected, T updated);
     }
+#endif
 }

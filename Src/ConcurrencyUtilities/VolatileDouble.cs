@@ -9,7 +9,10 @@ namespace ConcurrencyUtilities
     /// This datastructure is a struct. If a member is declared readonly VolatileDouble calling set will *NOT* modify the value.
     /// GetValue/SetValue are expressed as methods to make it obvious that a non-trivial operation is performed.
     /// </remarks>
-    public struct VolatileDouble : VolatileValue<double>
+    public struct VolatileDouble
+#if INTERNAL_INTERFACES
+        : VolatileValue<double>
+#endif
     {
         private double value;
 

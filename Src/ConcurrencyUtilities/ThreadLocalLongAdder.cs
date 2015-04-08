@@ -11,7 +11,10 @@ namespace ConcurrencyUtilities
     /// but it creates a ValueHolder instance for each thread that increments the value, not just for when contention is present. 
     /// Considering this, the StripedLongAdder might be a better solution in some cases (multiple threads, relatively low contention).
     /// </summary>
-    public sealed class ThreadLocalLongAdder : ValueAdder<long>
+    public sealed class ThreadLocalLongAdder
+#if INTERNAL_INTERFACES
+        : ValueAdder<long>
+#endif
     {
         private sealed class ValueHolder
         {

@@ -29,7 +29,10 @@ namespace ConcurrencyUtilities
     /// But under high contention, expected throughput of this class is significantly higher, at the expense of higher space consumption.
     /// 
     /// </summary>
-    public sealed class StripedLongAdder : Striped64, ValueAdder<long>
+    public sealed class StripedLongAdder : Striped64
+#if INTERNAL_INTERFACES
+        , ValueAdder<long>
+#endif
     {
         /// <summary>
         /// Creates a new instance of the adder with initial value of zero.
