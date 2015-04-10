@@ -3,7 +3,7 @@
 namespace ConcurrencyUtilities
 {
     /// <summary>
-    /// Double value on which the GetValue/SetValue operations are performed using Thread.VolatileWrite/Thread.VolatileWrite.
+    /// Double value on which the GetValue/SetValue operations are performed using Volatile.Read/Volatile.Write.
     /// </summary>
     /// <remarks>
     /// This datastructure is a struct. If a member is declared readonly VolatileDouble calling set will *NOT* modify the value.
@@ -11,7 +11,7 @@ namespace ConcurrencyUtilities
     /// </remarks>
     public struct VolatileDouble
 #if INTERNAL_INTERFACES
-        : VolatileValue<double>
+ : VolatileValue<double>
 #endif
     {
         private double value;
@@ -34,7 +34,7 @@ namespace ConcurrencyUtilities
         /// <param name="newValue">New value for this instance</param>
         public void SetValue(double newValue)
         {
-            Thread.VolatileWrite(ref this.value, newValue);
+            Volatile.Write(ref this.value, newValue);
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace ConcurrencyUtilities
         /// <returns>The current value of the instance</returns>
         public double GetValue()
         {
-            return Thread.VolatileRead(ref this.value);
+            return Volatile.Read(ref this.value);
         }
     }
 }

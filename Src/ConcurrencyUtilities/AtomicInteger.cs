@@ -11,7 +11,7 @@ namespace ConcurrencyUtilities
     /// </remarks>
     public struct AtomicInteger
 #if INTERNAL_INTERFACES
-        : AtomicValue<int>, ValueAdder<int>
+ : AtomicValue<int>, ValueAdder<int>
 #endif
     {
         private int value;
@@ -31,7 +31,7 @@ namespace ConcurrencyUtilities
         /// <returns>The latest written value of this instance.</returns>
         public int GetValue()
         {
-            return Thread.VolatileRead(ref this.value);
+            return Volatile.Read(ref this.value);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace ConcurrencyUtilities
         /// <param name="value">The new value for this instance.</param>
         public void SetValue(int value)
         {
-            Thread.VolatileWrite(ref this.value, value);
+            Volatile.Write(ref this.value, value);
         }
 
         /// <summary>

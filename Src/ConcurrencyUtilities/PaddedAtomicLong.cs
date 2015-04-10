@@ -11,7 +11,7 @@ namespace ConcurrencyUtilities
     [StructLayout(LayoutKind.Explicit, Size = 64 * 2)]
     public struct PaddedAtomicLong
 #if INTERNAL_INTERFACES
-        : AtomicValue<long>, ValueAdder<long>
+ : AtomicValue<long>, ValueAdder<long>
 #endif
     {
         [FieldOffset(64)]
@@ -32,7 +32,7 @@ namespace ConcurrencyUtilities
         /// <returns>The latest written value of this instance.</returns>
         public long GetValue()
         {
-            return Thread.VolatileRead(ref this.value);
+            return Volatile.Read(ref this.value);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace ConcurrencyUtilities
         /// <param name="value">The new value for this instance.</param>
         public void SetValue(long value)
         {
-            Thread.VolatileWrite(ref this.value, value);
+            Volatile.Write(ref this.value, value);
         }
 
         /// <summary>
