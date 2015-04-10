@@ -101,5 +101,87 @@ namespace ConcurrencyUtilities.Tests
         {
             ConcurrencyTest<AtomicInteger, int>(total, threadCount);
         }
+
+        [Theory]
+        [
+        InlineData(1000000, 16),
+        InlineData(1000000, 8),
+        InlineData(1000000, 4),
+        InlineData(1000000, 2),
+        InlineData(1000000, 1),
+        ]
+        public void Concurrency_AtomicLongArray_IsCorrectWithConcurrency(int total, int threadCount)
+        {
+            var array = new AtomicLongArray(100);
+            var thread = new List<Thread>();
+
+            for (var i = 0; i < threadCount; i++)
+            {
+                thread.Add(new Thread(() =>
+                {
+                    int index = 0;
+                    for (long j = 0; j < total; j++)
+                    {
+                        array.Increment(index++);
+                        if (index == array.Length)
+                        {
+                            index = 0;
+                        }
+                    }
+                }));
+            }
+
+            thread.ForEach(t => t.Start());
+            thread.ForEach(t => t.Join());
+
+            long sum = 0;
+            for (int i = 0; i < array.Length; i++)
+            {
+                sum += array.GetValue(i);
+            }
+
+            sum.Should().Be(total * threadCount);
+        }
+
+        [Theory]
+        [
+        InlineData(1000000, 16),
+        InlineData(1000000, 8),
+        InlineData(1000000, 4),
+        InlineData(1000000, 2),
+        InlineData(1000000, 1),
+        ]
+        public void Concurrency_AtomicIntArray_IsCorrectWithConcurrency(int total, int threadCount)
+        {
+            var array = new AtomicIntArray(100);
+            var thread = new List<Thread>();
+
+            for (var i = 0; i < threadCount; i++)
+            {
+                thread.Add(new Thread(() =>
+                {
+                    int index = 0;
+                    for (long j = 0; j < total; j++)
+                    {
+                        array.Increment(index++);
+                        if (index == array.Length)
+                        {
+                            index = 0;
+                        }
+                    }
+                }));
+            }
+
+            thread.ForEach(t => t.Start());
+            thread.ForEach(t => t.Join());
+
+            long sum = 0;
+            for (int i = 0; i < array.Length; i++)
+            {
+                sum += array.GetValue(i);
+            }
+
+            sum.Should().Be(total * threadCount);
+        }
     }
 }

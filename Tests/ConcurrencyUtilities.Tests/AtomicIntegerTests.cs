@@ -125,5 +125,17 @@ namespace ConcurrencyUtilities.Tests
             this.num.GetAndDecrement(5).Should().Be(9);
             this.num.GetValue().Should().Be(4);
         }
+
+        [Fact]
+        public void AtomicInteger_CanCompareAndSwap()
+        {
+            this.num.SetValue(10);
+
+            this.num.CompareAndSwap(5, 11).Should().Be(false);
+            this.num.GetValue().Should().Be(10);
+
+            this.num.CompareAndSwap(10, 11).Should().Be(true);
+            this.num.GetValue().Should().Be(11);
+        }
     }
 }

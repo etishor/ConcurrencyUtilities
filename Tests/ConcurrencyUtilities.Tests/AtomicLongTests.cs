@@ -125,5 +125,17 @@ namespace ConcurrencyUtilities.Tests
             this.num.GetAndDecrement(5L).Should().Be(9L);
             this.num.GetValue().Should().Be(4L);
         }
+
+        [Fact]
+        public void AtomicLong_CanCompareAndSwap()
+        {
+            this.num.SetValue(10L);
+
+            this.num.CompareAndSwap(5L, 11L).Should().Be(false);
+            this.num.GetValue().Should().Be(10L);
+
+            this.num.CompareAndSwap(10L, 11L).Should().Be(true);
+            this.num.GetValue().Should().Be(11L);
+        }
     }
 }
