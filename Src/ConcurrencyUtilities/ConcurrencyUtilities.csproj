@@ -58,7 +58,6 @@
     <Compile Include="ThreadLocalLongAdder.cs" />
     <Compile Include="ThreadLocalRandom.cs" />
     <Compile Include="VolatileDouble.cs" />
-    <Compile Include="VolatileLong.cs" />
     <Compile Include="Interfaces.cs" />
   </ItemGroup>
   <ItemGroup>
