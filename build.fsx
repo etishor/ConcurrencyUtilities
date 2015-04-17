@@ -134,13 +134,13 @@ Target "NuGet" <| fun _ ->
 
 Target "All" DoNothing
 
-//"Clean"
-//  ==> "RestoreNuget"
-//  ==> "AssemblyInfo"
-//  ==> "Build"
-//  ==> "RunTests"
-//  ==> "NuGet"
-//  ==> "SourceNuGet"
-//  ==> "All"
+"Clean"
+  ==> "RestoreNuget"
+  ==> "AssemblyInfo"
+  ==> "Build"
+  ==> "RunTests"
+  ==> "NuGet"
+  ==> "SourceNuGet"
+  ==> "All"
 
 RunTargetOrDefault "All"
