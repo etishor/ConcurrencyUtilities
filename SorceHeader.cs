@@ -11,7 +11,12 @@
 // 
 // Source: http://gee.cs.oswego.edu/cgi-bin/viewcvs.cgi/jsr166/src/jsr166e/Striped64.java?revision=1.8
 
+//
+// By default all added classes are internal to your assembly. 
+// To make them public define you have to define the conditional compilation symbol CONCURRENCY_UTILS_PUBLIC in your project properties.
+//
+
 #pragma warning disable 1591
 
-// ReSharper disable CheckNamespace
+// ReSharper disable All
 

@@ -1,3 +1,8 @@
+#### 0.1.3 - April 17 2015
+* Remove VolatileLong - use AtomicLong instead as Get/Set are equivalent to what VolatileLong was doing
+* Add ConcurrencyUtilities namespace in source package to avoid conflicts and default classes to internal to avoid conflicts
+* CONCURRENCY_UTILS_PUBLIC to allow exposing classes as public
+
 #### 0.1.2 - April 10 2015
 * Add AtomicLongArray and AtomicIntArray
 
