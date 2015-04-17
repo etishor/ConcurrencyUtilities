@@ -90,8 +90,6 @@ Target "SourceNuGet" <| fun _ ->
     ensureDirectory workDir
     CleanDir workDir
     ensureDirectory nugetOutput
-    CleanDir nugetOutput
-    
 
     for file in !! (sources + "*.cs") -- (sources + "Interfaces.cs") do
         let name = Path.GetFileNameWithoutExtension file
