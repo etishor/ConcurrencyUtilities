@@ -9,10 +9,7 @@ namespace ConcurrencyUtilities
     /// AtomicLong end up close to each other in memory - when stored in an array for ex. 
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 64 * 2)]
-    public struct PaddedAtomicLong
-#if INTERNAL_CONCURRENCY_UTILS_INTERFACES
- : AtomicValue<long>, ValueAdder<long>
-#endif
+    public struct PaddedAtomicLong : AtomicValue<long>, ValueAdder<long>
     {
         [FieldOffset(64)]
         private long value;
@@ -165,7 +162,7 @@ namespace ConcurrencyUtilities
             return Interlocked.CompareExchange(ref this.value, updated, expected) == expected;
         }
 
-#if INTERNAL_CONCURRENCY_UTILS_INTERFACES
+        // RemoveAtPack
         long ValueAdder<long>.GetAndReset() { return this.GetAndReset(); }
         void ValueAdder<long>.Add(long value) { this.Add(value); }
         void ValueAdder<long>.Increment() { this.Increment(); }
@@ -174,6 +171,6 @@ namespace ConcurrencyUtilities
         void ValueAdder<long>.Decrement(long value) { this.Decrement(value); }
         void ValueAdder<long>.Reset() { this.SetValue(0L); }
         long ValueReader<long>.GetValue() { return this.GetValue(); }
-#endif
+        // EndRemoveAtPack
     }
 }

@@ -9,10 +9,7 @@ namespace ConcurrencyUtilities
     /// <summary>
     /// Array of longs which provides atomic operations on the array elements. 
     /// </summary>
-    public struct AtomicLongArray
-#if INTERNAL_CONCURRENCY_UTILS_INTERFACES
- : AtomicArray<long>
-#endif
+    public struct AtomicLongArray : AtomicArray<long>
     {
         private readonly long[] array;
 

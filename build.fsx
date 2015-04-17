@@ -74,6 +74,17 @@ Target "RunTests" (fun _ ->
             Parallel = ParallelOption.Collections })
 )
 
+let processSourceFile content = 
+    let header = File.ReadAllText "SorceHeader.cs"
+    replace "namespace ConcurrencyUtilities" "namespace $rootnamespace$.ConcurrencyUtilities" content 
+    |> replace "    public struct " "#if CONCURRENCY_UTILS_PUBLIC\r\npublic\r\n#else\r\ninternal\r\n#endif\r\n    struct "
+    |> replace "    public sealed class " "#if CONCURRENCY_UTILS_PUBLIC\r\npublic\r\n#else\r\ninternal\r\n#endif\r\n    sealed class "
+    |> replace "    public static class " "#if CONCURRENCY_UTILS_PUBLIC\r\npublic\r\n#else\r\ninternal\r\n#endif\r\n    static class "
+    |> replace "    public abstract class " "#if CONCURRENCY_UTILS_PUBLIC\r\npublic\r\n#else\r\ninternal\r\n#endif\r\n    abstract class "
+    |> regex_replace "\s*(?:\: AtomicArray<.*>|\: AtomicValue<.*>|(?:\,|\:) ValueAdder<.*>|\: VolatileValue<.*>)" ""
+    |> regex_replace "(?<=\})\s*//\sRemoveAtPack(?+s:.*)//\sEndRemoveAtPack" ""
+    |> fun x -> header + x
+    
 Target "SourceNuGet" <| fun _ ->
     let workDir = "./bin/Release/NuGet.Sources/"
     ensureDirectory workDir
@@ -82,10 +93,10 @@ Target "SourceNuGet" <| fun _ ->
     CleanDir nugetOutput
     
 
-    for file in !! (sources + "*.cs") do
+    for file in !! (sources + "*.cs") -- (sources + "Interfaces.cs") do
         let name = Path.GetFileNameWithoutExtension file
         let content = File.ReadAllText file
-        let processed = replace "namespace ConcurrencyUtilities" "namespace $rootnamespace$.ConcurrencyUtilities" content 
+        let processed = processSourceFile content 
         let output = Path.Combine(workDir, (name + ".cs.pp"))
         File.WriteAllText(output, processed)
 
@@ -123,13 +134,13 @@ Target "NuGet" <| fun _ ->
 
 Target "All" DoNothing
 
-"Clean"
-  ==> "RestoreNuget"
-  ==> "AssemblyInfo"
-  ==> "Build"
-  ==> "RunTests"
-  ==> "NuGet"
-  ==> "SourceNuGet"
-  ==> "All"
+//"Clean"
+//  ==> "RestoreNuget"
+//  ==> "AssemblyInfo"
+//  ==> "Build"
+//  ==> "RunTests"
+//  ==> "NuGet"
+//  ==> "SourceNuGet"
+//  ==> "All"
 
 RunTargetOrDefault "All"

@@ -9,10 +9,7 @@ namespace ConcurrencyUtilities
     /// <remarks>
     /// The AtomicLong is a struct not a class and members of this type should *not* be declared readonly or changes will not be reflected in the member instance. 
     /// </remarks>
-    public struct AtomicLong
-#if INTERNAL_CONCURRENCY_UTILS_INTERFACES
- : AtomicValue<long>, ValueAdder<long>
-#endif
+    public struct AtomicLong : AtomicValue<long>, ValueAdder<long>
     {
         private long value;
 
@@ -164,7 +161,7 @@ namespace ConcurrencyUtilities
             return Interlocked.CompareExchange(ref this.value, updated, expected) == expected;
         }
 
-#if INTERNAL_CONCURRENCY_UTILS_INTERFACES
+        // RemoveAtPack
         long ValueAdder<long>.GetAndReset() { return this.GetAndReset(); }
         void ValueAdder<long>.Add(long value) { this.Add(value); }
         void ValueAdder<long>.Increment() { this.Increment(); }
@@ -173,6 +170,6 @@ namespace ConcurrencyUtilities
         void ValueAdder<long>.Decrement(long value) { this.Decrement(value); }
         void ValueAdder<long>.Reset() { this.SetValue(0L); }
         long ValueReader<long>.GetValue() { return this.GetValue(); }
-#endif
+        // EndRemoveAtPack
     }
 }

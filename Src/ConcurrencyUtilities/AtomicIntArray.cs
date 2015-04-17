@@ -4,10 +4,7 @@ using System.Threading;
 
 namespace ConcurrencyUtilities
 {
-    public struct AtomicIntArray
-#if INTERNAL_CONCURRENCY_UTILS_INTERFACES
- : AtomicArray<int>
-#endif
+    public struct AtomicIntArray : AtomicArray<int>
     {
         private readonly int[] array;
 
