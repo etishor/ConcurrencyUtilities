@@ -85,7 +85,7 @@ Target "SourceNuGet" <| fun _ ->
     for file in !! (sources + "*.cs") do
         let name = Path.GetFileNameWithoutExtension file
         let content = File.ReadAllText file
-        let processed = replace "namespace ConcurrencyUtilities" "namespace $rootnamespace$" content 
+        let processed = replace "namespace ConcurrencyUtilities" "namespace $rootnamespace$.ConcurrencyUtilities" content 
         let output = Path.Combine(workDir, (name + ".cs.pp"))
         File.WriteAllText(output, processed)
 
