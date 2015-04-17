@@ -10,7 +10,7 @@ namespace ConcurrencyUtilities
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 64 * 2)]
     public struct PaddedAtomicLong
-#if INTERNAL_INTERFACES
+#if INTERNAL_CONCURRENCY_UTILS_INTERFACES
  : AtomicValue<long>, ValueAdder<long>
 #endif
     {
@@ -165,7 +165,7 @@ namespace ConcurrencyUtilities
             return Interlocked.CompareExchange(ref this.value, updated, expected) == expected;
         }
 
-#if INTERNAL_INTERFACES
+#if INTERNAL_CONCURRENCY_UTILS_INTERFACES
         long ValueAdder<long>.GetAndReset() { return this.GetAndReset(); }
         void ValueAdder<long>.Add(long value) { this.Add(value); }
         void ValueAdder<long>.Increment() { this.Increment(); }

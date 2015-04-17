@@ -1,13 +1,11 @@
-﻿
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 
 namespace ConcurrencyUtilities
 {
     public struct AtomicIntArray
-#if INTERNAL_INTERFACES
+#if INTERNAL_CONCURRENCY_UTILS_INTERFACES
  : AtomicArray<int>
 #endif
     {

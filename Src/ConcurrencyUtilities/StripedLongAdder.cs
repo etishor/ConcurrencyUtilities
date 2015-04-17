@@ -30,7 +30,7 @@ namespace ConcurrencyUtilities
     /// 
     /// </summary>
     public sealed class StripedLongAdder : Striped64
-#if INTERNAL_INTERFACES
+#if INTERNAL_CONCURRENCY_UTILS_INTERFACES
         , ValueAdder<long>
 #endif
     {

@@ -10,7 +10,7 @@ namespace ConcurrencyUtilities
     /// GetValue/SetValue are expressed as methods to make it obvious that a non-trivial operation is performed.
     /// </remarks>
     public struct VolatileDouble
-#if INTERNAL_INTERFACES
+#if INTERNAL_CONCURRENCY_UTILS_INTERFACES
  : VolatileValue<double>
 #endif
     {

@@ -12,7 +12,7 @@ namespace ConcurrencyUtilities
     /// Considering this, the StripedLongAdder might be a better solution in some cases (multiple threads, relatively low contention).
     /// </summary>
     public sealed class ThreadLocalLongAdder
-#if INTERNAL_INTERFACES
+#if INTERNAL_CONCURRENCY_UTILS_INTERFACES
         : ValueAdder<long>
 #endif
     {

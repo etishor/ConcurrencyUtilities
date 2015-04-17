@@ -10,7 +10,7 @@ namespace ConcurrencyUtilities
     /// Array of longs which provides atomic operations on the array elements. 
     /// </summary>
     public struct AtomicLongArray
-#if INTERNAL_INTERFACES
+#if INTERNAL_CONCURRENCY_UTILS_INTERFACES
  : AtomicArray<long>
 #endif
     {

@@ -1,7 +1,7 @@
 ﻿
 namespace ConcurrencyUtilities
 {
-#if INTERNAL_INTERFACES
+#if INTERNAL_CONCURRENCY_UTILS_INTERFACES
     /*
      * This interfaces are only used to maintain a consistent signature of the different implementations
      *  
