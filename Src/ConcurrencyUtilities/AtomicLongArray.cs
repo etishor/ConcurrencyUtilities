@@ -48,6 +48,16 @@ namespace ConcurrencyUtilities
         }
 
         /// <summary>
+        /// Returns the current value of the instance without using Volatile.Read fence and ordering.  
+        /// </summary>
+        /// <param name="index">index in the array</param>
+        /// <returns>The current value of the instance in a non-volatile way (might not observe changes on other threads).</returns>
+        public long NonVolatileGetValue(int index)
+        {
+            return this.array[index];
+        }
+
+        /// <summary>
         /// Write a new value to this instance. The value is immediately seen by all processors.
         /// </summary>
         /// <param name="index">index in the array</param>
@@ -55,6 +65,34 @@ namespace ConcurrencyUtilities
         public void SetValue(int index, long value)
         {
             Volatile.Write(ref this.array[index], value);
+        }
+
+        /// <summary>
+        /// From the Java Version:
+        /// Eventually sets to the given value.
+        /// The semantics are that the write is guaranteed not to be re-ordered with any previous write, 
+        /// but may be reordered with subsequent operations (or equivalently, might not be visible to other threads) 
+        /// until some other volatile write or synchronizing action occurs).
+        /// </summary>
+        /// <remarks>
+        /// Currently implemented by calling Volatile.Write which is different from the java version. 
+        /// Not sure if it is possible on CLR to implement this.
+        /// </remarks>
+        /// <param name="index">index in the array</param>
+        /// <param name="value">The new value for this instance.</param>
+        public void LazySetValue(int index, long value)
+        {
+            Volatile.Write(ref this.array[index], value);
+        }
+
+        /// <summary>
+        /// Set the value without using Volatile.Write fence and ordering.
+        /// </summary>
+        /// <param name="index">index in the array</param>
+        /// <param name="value">The new value for this instance.</param>
+        public void NonVolatileSetValue(int index, long value)
+        {
+            this.array[index] = value;
         }
 
         /// <summary>

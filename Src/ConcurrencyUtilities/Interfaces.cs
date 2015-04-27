@@ -57,7 +57,10 @@ namespace ConcurrencyUtilities
     {
         int Length { get; }
         T GetValue(int index);
+        T NonVolatileGetValue(int index);
         void SetValue(int index, T value);
+        void LazySetValue(int index, T value);
+        void NonVolatileSetValue(int index, T value);
         T Add(int index, T value);
         T GetAndAdd(int index, T value);
         T GetAndIncrement(int index);
