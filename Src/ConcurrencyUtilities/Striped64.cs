@@ -133,7 +133,7 @@ namespace ConcurrencyUtilities
                     if (init)
                         break;
                 }
-                else if (this.Base.CompareAndSwap(v = Base.GetValue(), v + x))
+                else if (this.Base.CompareAndSwap(v = this.Base.GetValue(), v + x))
                     break;                          // Fall back on using volatileBase
             }
         }
