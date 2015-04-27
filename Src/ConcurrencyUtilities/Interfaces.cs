@@ -10,11 +10,14 @@ namespace ConcurrencyUtilities
     internal interface ValueReader<out T>
     {
         T GetValue();
+        T NonVolatileGetValue();
     }
 
     internal interface ValueWriter<in T>
     {
         void SetValue(T newValue);
+        void LazySetValue(T newValue);
+        void NonVolatileSetValue(T newValue);
     }
 
     internal interface VolatileValue<T> : ValueReader<T>, ValueWriter<T> { }

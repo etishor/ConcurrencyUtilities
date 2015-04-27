@@ -42,6 +42,8 @@ namespace ConcurrencyUtilities
                 set { Volatile.Write(ref this.value, value); }
             }
 
+            public long NonVolatileValue { get { return this.value; } }
+
             public bool Cas(long cmp, long val)
             {
                 return Interlocked.CompareExchange(ref this.value, val, cmp) == cmp;
@@ -58,6 +60,8 @@ namespace ConcurrencyUtilities
 
         private long volatileBase;
         private int cellsBusy; // no need for volatile as we only update with Interlocked.CompareExchange
+
+        protected long NonVolatileBase { get { return this.volatileBase; } }
 
         protected long Base
         {

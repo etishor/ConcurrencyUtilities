@@ -64,6 +64,25 @@ namespace ConcurrencyUtilities
         }
 
         /// <summary>
+        /// Returns the current value of the instance without using Volatile.Read fence & ordering.  
+        /// </summary>
+        /// <returns>The current value of the instance in a non-volatile way (might not observe changes on other threads).</returns>
+        public long NonVolatileGetValue()
+        {
+            var @as = this.cells; Cell a;
+            var sum = NonVolatileBase;
+            if (@as != null)
+            {
+                for (var i = 0; i < @as.Length; ++i)
+                {
+                    if ((a = @as[i]) != null)
+                        sum += a.NonVolatileValue;
+                }
+            }
+            return sum;
+        }
+
+        /// <summary>
         /// Returns the current value of this adder and resets the value to zero.
         /// This method sums all the buckets, resets their value and returns the result.
         /// </summary>
