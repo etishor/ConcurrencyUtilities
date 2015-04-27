@@ -22,7 +22,7 @@ namespace ConcurrencyUtilities
     /// </summary>
     public abstract class Striped64
     {
-        private static readonly int NumberOfCpus = Environment.ProcessorCount;
+        private static readonly int numberOfCpus = Environment.ProcessorCount;
 
         protected class Cell
         {
@@ -34,8 +34,7 @@ namespace ConcurrencyUtilities
             }
         }
 
-        // ReSharper disable once InconsistentNaming
-        protected volatile Cell[] cells;
+        protected volatile Cell[] Cells;
         protected AtomicLong Base = new AtomicLong(0);
 
         private int cellsBusy; // no need for volatile as we only update with Interlocked.CompareExchange
@@ -53,7 +52,7 @@ namespace ConcurrencyUtilities
             for (; ; )
             {
                 Cell[] @as; Cell a; int n; long v;
-                if ((@as = this.cells) != null && (n = @as.Length) > 0)
+                if ((@as = this.Cells) != null && (n = @as.Length) > 0)
                 {
                     if ((a = @as[(n - 1) & h]) == null)
                     {
@@ -66,7 +65,7 @@ namespace ConcurrencyUtilities
                                 try
                                 {               // Recheck under lock
                                     Cell[] rs; int m, j;
-                                    if ((rs = this.cells) != null &&
+                                    if ((rs = this.Cells) != null &&
                                         (m = rs.Length) > 0 &&
                                         rs[j = (m - 1) & h] == null)
                                     {
@@ -89,7 +88,7 @@ namespace ConcurrencyUtilities
                         wasUncontended = true;      // Continue after rehash
                     else if (a.Value.CompareAndSwap(v = a.Value.GetValue(), v + x))
                         break;
-                    else if (n >= NumberOfCpus || this.cells != @as)
+                    else if (n >= numberOfCpus || this.Cells != @as)
                         collide = false;            // At max size or stale
                     else if (!collide)
                         collide = true;
@@ -97,12 +96,12 @@ namespace ConcurrencyUtilities
                     {
                         try
                         {
-                            if (this.cells == @as)
+                            if (this.Cells == @as)
                             {      // Expand table unless stale
                                 var rs = new Cell[n << 1];
                                 for (var i = 0; i < n; ++i)
                                     rs[i] = @as[i];
-                                this.cells = rs;
+                                this.Cells = rs;
                             }
                         }
                         finally
@@ -114,16 +113,16 @@ namespace ConcurrencyUtilities
                     }
                     h = AdvanceProbe(h);
                 }
-                else if (this.cellsBusy == 0 && this.cells == @as && CasCellsBusy())
+                else if (this.cellsBusy == 0 && this.Cells == @as && CasCellsBusy())
                 {
                     var init = false;
                     try
                     {                           // Initialize table
-                        if (this.cells == @as)
+                        if (this.Cells == @as)
                         {
                             var rs = new Cell[2];
                             rs[h & 1] = new Cell(x);
-                            this.cells = rs;
+                            this.Cells = rs;
                             init = true;
                         }
                     }
