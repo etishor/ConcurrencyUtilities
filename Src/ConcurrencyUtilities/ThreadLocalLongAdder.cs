@@ -56,7 +56,7 @@ namespace ConcurrencyUtilities
         }
 
         /// <summary>
-        /// Returns the current value of the instance without using Volatile.Read fence & ordering.  
+        /// Returns the current value of the instance without using Volatile.Read fence and ordering.  
         /// </summary>
         /// <returns>The current value of the instance in a non-volatile way (might not observe changes on other threads).</returns>
         public long NonVolatileGetValue()

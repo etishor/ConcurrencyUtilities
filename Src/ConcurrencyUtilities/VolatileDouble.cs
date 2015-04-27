@@ -52,7 +52,7 @@ namespace ConcurrencyUtilities
         }
 
         /// <summary>
-        /// Set the value without using Volatile.Write fence & ordering.
+        /// Set the value without using Volatile.Write fence and ordering.
         /// </summary>
         /// <param name="value">The new value for this instance.</param>
         public void NonVolatileSetValue(double value)
@@ -70,7 +70,7 @@ namespace ConcurrencyUtilities
         }
 
         /// <summary>
-        /// Returns the current value of the instance without using Volatile.Read fence & ordering.  
+        /// Returns the current value of the instance without using Volatile.Read fence and ordering.  
         /// </summary>
         /// <returns>The current value of the instance in a non-volatile way (might not observe changes on other threads).</returns>
         public double NonVolatileGetValue()
