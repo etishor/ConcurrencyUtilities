@@ -51,13 +51,13 @@ namespace ConcurrencyUtilities
         public long GetValue()
         {
             var @as = this.cells; Cell a;
-            var sum = Base;
+            var sum = Base.GetValue();
             if (@as != null)
             {
                 for (var i = 0; i < @as.Length; ++i)
                 {
                     if ((a = @as[i]) != null)
-                        sum += a.Value;
+                        sum += a.Value.GetValue();
                 }
             }
             return sum;
@@ -70,13 +70,13 @@ namespace ConcurrencyUtilities
         public long NonVolatileGetValue()
         {
             var @as = this.cells; Cell a;
-            var sum = NonVolatileBase;
+            var sum = Base.NonVolatileGetValue();
             if (@as != null)
             {
                 for (var i = 0; i < @as.Length; ++i)
                 {
                     if ((a = @as[i]) != null)
-                        sum += a.NonVolatileValue;
+                        sum += a.Value.NonVolatileGetValue();
                 }
             }
             return sum;
@@ -93,14 +93,14 @@ namespace ConcurrencyUtilities
         public long GetAndReset()
         {
             var @as = this.cells; Cell a;
-            var sum = GetAndResetBase();
+            var sum = Base.GetAndReset();
             if (@as != null)
             {
                 for (var i = 0; i < @as.Length; ++i)
                 {
                     if ((a = @as[i]) != null)
                     {
-                        sum += a.GetAndReset();
+                        sum += a.Value.GetAndReset();
                     }
                 }
             }
@@ -113,14 +113,14 @@ namespace ConcurrencyUtilities
         public void Reset()
         {
             var @as = this.cells; Cell a;
-            Base = 0L;
+            Base.SetValue(0L);
             if (@as != null)
             {
                 for (var i = 0; i < @as.Length; ++i)
                 {
                     if ((a = @as[i]) != null)
                     {
-                        a.Value = 0L;
+                        a.Value.SetValue(0L);
                     }
                 }
             }
@@ -168,10 +168,10 @@ namespace ConcurrencyUtilities
             long b, v;
             int m;
             Cell a;
-            if ((@as = this.cells) != null || !CompareAndSwapBase(b = Base, b + value))
+            if ((@as = this.cells) != null || !Base.CompareAndSwap(b = Base.GetValue(), b + value))
             {
                 var uncontended = true;
-                if (@as == null || (m = @as.Length - 1) < 0 || (a = @as[GetProbe() & m]) == null || !(uncontended = a.Cas(v = a.Value, v + value)))
+                if (@as == null || (m = @as.Length - 1) < 0 || (a = @as[GetProbe() & m]) == null || !(uncontended = a.Value.CompareAndSwap(v = a.Value.GetValue(), v + value)))
                 {
                     LongAccumulate(value, uncontended);
                 }

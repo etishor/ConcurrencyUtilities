@@ -12,7 +12,6 @@
  */
 
 using System;
-using System.Runtime.InteropServices;
 using System.Threading;
 // ReSharper disable TooWideLocalVariableScope
 
@@ -25,59 +24,21 @@ namespace ConcurrencyUtilities
     {
         private static readonly int NumberOfCpus = Environment.ProcessorCount;
 
-        [StructLayout(LayoutKind.Explicit, Size = 64 * 2)]
         protected class Cell
         {
-            [FieldOffset(64)]
-            private long value;
+            public PaddedAtomicLong Value;
 
             public Cell(long x)
             {
-                this.value = x;
-            }
-
-            public long Value
-            {
-                get { return Volatile.Read(ref this.value); }
-                set { Volatile.Write(ref this.value, value); }
-            }
-
-            public long NonVolatileValue { get { return this.value; } }
-
-            public bool Cas(long cmp, long val)
-            {
-                return Interlocked.CompareExchange(ref this.value, val, cmp) == cmp;
-            }
-
-            public long GetAndReset()
-            {
-                return Interlocked.Exchange(ref this.value, 0L);
+                this.Value = new PaddedAtomicLong(x);
             }
         }
 
         // ReSharper disable once InconsistentNaming
         protected volatile Cell[] cells;
+        protected AtomicLong Base = new AtomicLong(0);
 
-        private long volatileBase;
         private int cellsBusy; // no need for volatile as we only update with Interlocked.CompareExchange
-
-        protected long NonVolatileBase { get { return this.volatileBase; } }
-
-        protected long Base
-        {
-            get { return Volatile.Read(ref this.volatileBase); }
-            set { Volatile.Write(ref this.volatileBase, value); }
-        }
-
-        protected bool CompareAndSwapBase(long cmp, long val)
-        {
-            return Interlocked.CompareExchange(ref this.volatileBase, val, cmp) == cmp;
-        }
-
-        protected long GetAndResetBase()
-        {
-            return Interlocked.Exchange(ref this.volatileBase, 0L);
-        }
 
         private bool CasCellsBusy()
         {
@@ -126,7 +87,7 @@ namespace ConcurrencyUtilities
                     }
                     else if (!wasUncontended)       // CAS already known to fail
                         wasUncontended = true;      // Continue after rehash
-                    else if (a.Cas(v = a.Value, v + x))
+                    else if (a.Value.CompareAndSwap(v = a.Value.GetValue(), v + x))
                         break;
                     else if (n >= NumberOfCpus || this.cells != @as)
                         collide = false;            // At max size or stale
@@ -173,7 +134,7 @@ namespace ConcurrencyUtilities
                     if (init)
                         break;
                 }
-                else if (CompareAndSwapBase(v = Base, v + x))
+                else if (this.Base.CompareAndSwap(v = Base.GetValue(), v + x))
                     break;                          // Fall back on using volatileBase
             }
         }
