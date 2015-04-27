@@ -1,3 +1,7 @@
+#### 0.1.4 - April 27 2015
+* Add NonVolatileGetValue, NonVolatileSetValue and LazySetValue to atomic values
+* Use PaddedAtomicLong and AtomicLong in Striped64
+
 #### 0.1.3 - April 17 2015
 * Remove VolatileLong - use AtomicLong instead as Get/Set are equivalent to what VolatileLong was doing
 * Add ConcurrencyUtilities namespace in source package to avoid conflicts and default classes to internal to avoid conflicts
