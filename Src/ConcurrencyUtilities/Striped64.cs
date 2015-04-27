@@ -22,7 +22,7 @@ namespace ConcurrencyUtilities
     /// </summary>
     public abstract class Striped64
     {
-        private static readonly int numberOfCpus = Environment.ProcessorCount;
+        private static readonly int processorCount = Environment.ProcessorCount;
 
         protected class Cell
         {
@@ -88,7 +88,7 @@ namespace ConcurrencyUtilities
                         wasUncontended = true;      // Continue after rehash
                     else if (a.Value.CompareAndSwap(v = a.Value.GetValue(), v + x))
                         break;
-                    else if (n >= numberOfCpus || this.Cells != @as)
+                    else if (n >= processorCount || this.Cells != @as)
                         collide = false;            // At max size or stale
                     else if (!collide)
                         collide = true;
