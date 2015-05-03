@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace ConcurrencyUtilities
 {
@@ -11,6 +12,11 @@ namespace ConcurrencyUtilities
     /// </remarks>
     public struct AtomicLong : AtomicValue<long>, ValueAdder<long>
     {
+        /// <summary>
+        /// The size in bytes occupied by an instance of this type
+        /// </summary>
+        public static readonly int SizeInBytes = Marshal.SizeOf(typeof(AtomicLong));
+
         private long value;
 
         /// <summary>

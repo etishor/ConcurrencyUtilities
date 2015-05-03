@@ -4,6 +4,9 @@ using System.Threading;
 
 namespace ConcurrencyUtilities
 {
+    /// <summary>
+    /// Array of ints which provides atomic operations on the array elements. 
+    /// </summary>
     public struct AtomicIntArray : AtomicArray<int>
     {
         private readonly int[] array;
@@ -27,6 +30,9 @@ namespace ConcurrencyUtilities
             this.array = clone;
         }
 
+        /// <summary>
+        /// The length of the underlying array
+        /// </summary>
         public int Length
         {
             get { return this.array.Length; }
@@ -227,6 +233,16 @@ namespace ConcurrencyUtilities
         public bool CompareAndSwap(int index, int expected, int updated)
         {
             return Interlocked.CompareExchange(ref this.array[index], updated, expected) == expected;
+        }
+
+        /// <summary>
+        /// Returns the size in bytes occupied by an AtomicIntArray instance.
+        /// </summary>
+        /// <param name="instance">instance for whch to calculate the size.</param>
+        /// <returns>The size of the instance in bytes.</returns>
+        public static int GetEstimatedFootprintInBytes(AtomicIntArray instance)
+        {
+            return instance.Length * sizeof(int) + 16 + IntPtr.Size; // array reference & overhead
         }
     }
 }

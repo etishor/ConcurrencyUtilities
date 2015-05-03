@@ -1,11 +1,29 @@
 ﻿
+
+
 namespace ConcurrencyUtilities.Benchmarks
 {
     class Program
     {
         static void Main(string[] args)
         {
-            BenchmarkRunner.Run("NoOp", () => { });
+            AtomicLong[] data = new AtomicLong[0];
+
+            BenchmarkRunner.DefaultMaxThreads = 8;
+            BenchmarkRunner.DefaultTotalSeconds = 5;
+
+            var strippedLongAdder = new StripedLongAdder(0L);
+            var threadLocalAdder = new ThreadLocalLongAdder(0L);
+
+            BenchmarkRunner.Run("ThreadLocalLongAdder.ValueAdderIncrement", () => threadLocalAdder.Increment());
+            var sz = ThreadLocalLongAdder.GetEstimatedFootprintInBytes(threadLocalAdder);
+
+            BenchmarkRunner.Run("StripedLongAdder.ValueAdderIncrement", () => strippedLongAdder.Increment());
+
+
+            //BenchmarkRunner.Run("ThreadLocalLongAdder.ValueAdderIncrement", () => threadLocalAdder.Increment());
+
+            //BenchmarkRunner.Run("NoOp", () => { });
 
             ValueAdderIncrement();
         }

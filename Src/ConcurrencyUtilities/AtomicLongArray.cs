@@ -32,6 +32,9 @@ namespace ConcurrencyUtilities
             this.array = clone;
         }
 
+        /// <summary>
+        /// The length of the underlying array
+        /// </summary>
         public int Length
         {
             get { return this.array.Length; }
@@ -232,6 +235,16 @@ namespace ConcurrencyUtilities
         public bool CompareAndSwap(int index, long expected, long updated)
         {
             return Interlocked.CompareExchange(ref this.array[index], updated, expected) == expected;
+        }
+
+        /// <summary>
+        /// Returns the size in bytes occupied by an AtomicLongArray instance.
+        /// </summary>
+        /// <param name="instance">instance for whch to calculate the size.</param>
+        /// <returns>The size of the instance in bytes.</returns>
+        public static int GetEstimatedFootprintInBytes(AtomicIntArray instance)
+        {
+            return instance.Length * sizeof(long) + 16 + IntPtr.Size; // array reference & overhead
         }
     }
 }

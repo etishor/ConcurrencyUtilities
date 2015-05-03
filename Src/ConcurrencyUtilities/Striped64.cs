@@ -12,6 +12,7 @@
  */
 
 using System;
+using System.Linq;
 using System.Threading;
 // ReSharper disable TooWideLocalVariableScope
 
@@ -22,10 +23,12 @@ namespace ConcurrencyUtilities
     /// </summary>
     public abstract class Striped64
     {
-        private static readonly int processorCount = Environment.ProcessorCount;
+        private static readonly int ProcessorCount = Environment.ProcessorCount;
 
-        protected class Cell
+        protected sealed class Cell
         {
+            public static int SizeInBytes = PaddedAtomicLong.SizeInBytes + 16;
+
             public PaddedAtomicLong Value;
 
             public Cell(long x)
@@ -88,7 +91,7 @@ namespace ConcurrencyUtilities
                         wasUncontended = true;      // Continue after rehash
                     else if (a.Value.CompareAndSwap(v = a.Value.GetValue(), v + x))
                         break;
-                    else if (n >= processorCount || this.Cells != @as)
+                    else if (n >= ProcessorCount || this.Cells != @as)
                         collide = false;            // At max size or stale
                     else if (!collide)
                         collide = true;
@@ -157,6 +160,24 @@ namespace ConcurrencyUtilities
         private class ThreadHashCode
         {
             public int Code = ThreadLocalRandom.Next(1, int.MaxValue);
+        }
+
+        /// <summary>
+        /// Returns the size in bytes occupied by an Striped64 instance.
+        /// </summary>
+        /// <param name="instance">instance for whch to calculate the size.</param>
+        /// <returns>The size of the instance in bytes.</returns>
+        public static int GetEstimatedFootprintInBytes(Striped64 instance)
+        {
+            var cells = instance.Cells;
+            var cellsLength = cells != null ? cells.Length : 0;
+            var nonNullCells = cellsLength > 0 ? cells.Count(c => c != null) : 0;
+
+            return AtomicLong.SizeInBytes + // base
+                   sizeof(int) + // cellsBusy
+                   IntPtr.Size + // cells reference
+                   cellsLength * IntPtr.Size + // size of array of references to cells
+                   nonNullCells * Cell.SizeInBytes; // size of non null cells
         }
     }
 }

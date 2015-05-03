@@ -177,5 +177,15 @@ namespace ConcurrencyUtilities
                 }
             }
         }
+
+        /// <summary>
+        /// Returns the size in bytes occupied by an Striped64 instance.
+        /// </summary>
+        /// <param name="instance">instance for whch to calculate the size.</param>
+        /// <returns>The size of the instance in bytes.</returns>
+        public static int GetEstimatedFootprintInBytes(StripedLongAdder instance)
+        {
+            return Striped64.GetEstimatedFootprintInBytes(instance);
+        }
     }
 }

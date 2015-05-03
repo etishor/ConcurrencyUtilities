@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Threading;
 
 namespace ConcurrencyUtilities
@@ -7,7 +8,7 @@ namespace ConcurrencyUtilities
     /// This class is similar in functionality with the StripedLongAdder, but uses the ThreadLocal class to 
     /// keep a value for each thread. The GetValue method sums all the values and returns the result.
     /// 
-    /// This class is a bit baster (in micro-benchmarks) than the StripedLongAdder for incrementing a value on multiple threads, 
+    /// This class is a bit faster (in micro-benchmarks) than the StripedLongAdder for incrementing a value on multiple threads, 
     /// but it creates a ValueHolder instance for each thread that increments the value, not just for when contention is present. 
     /// Considering this, the StripedLongAdder might be a better solution in some cases (multiple threads, relatively low contention).
     /// </summary>
@@ -15,6 +16,8 @@ namespace ConcurrencyUtilities
     {
         private sealed class ValueHolder
         {
+            public const int SizeInBytes = sizeof(long) + 16;
+
             public long Value;
 
             public long GetAndReset()
@@ -137,6 +140,16 @@ namespace ConcurrencyUtilities
         public void Decrement(long value)
         {
             Add(-value);
+        }
+
+        /// <summary>
+        /// Returns the size in bytes occupied by an ThreadLocalAddre instance.
+        /// </summary>
+        /// <param name="instance">instance for whch to calculate the size.</param>
+        /// <returns>The size of the instance in bytes.</returns>
+        public static int GetEstimatedFootprintInBytes(ThreadLocalLongAdder instance)
+        {
+            return instance.local.Values.Count * (IntPtr.Size + ValueHolder.SizeInBytes) + 64; // very rough estimation for thread local & values list
         }
     }
 }
