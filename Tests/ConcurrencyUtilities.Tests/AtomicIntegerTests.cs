@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.Runtime.InteropServices;
+using FluentAssertions;
 using Xunit;
 
 namespace ConcurrencyUtilities.Tests
@@ -6,6 +7,12 @@ namespace ConcurrencyUtilities.Tests
     public class AtomicIntegerTests
     {
         private AtomicInteger num = new AtomicInteger();
+
+        [Fact]
+        public void AtomicInteger_ShouldHaveCorrectSize()
+        {
+            AtomicInteger.SizeInBytes.Should().Be(Marshal.SizeOf<AtomicInteger>());
+        }
 
         [Fact]
         public void AtomicInteger_DefaultsToZero()

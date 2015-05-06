@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.Runtime.InteropServices;
+using FluentAssertions;
 using Xunit;
 
 namespace ConcurrencyUtilities.Tests
@@ -6,6 +7,12 @@ namespace ConcurrencyUtilities.Tests
     public class PaddedAtomicLongTests
     {
         private PaddedAtomicLong num = new PaddedAtomicLong();
+
+        [Fact]
+        public void PaddedAtomicLong_ShouldHaveCorrectSize()
+        {
+            PaddedAtomicLong.SizeInBytes.Should().Be(Marshal.SizeOf<PaddedAtomicLong>());
+        }
 
         [Fact]
         public void PaddedAtomicLong_DefaultsToZero()

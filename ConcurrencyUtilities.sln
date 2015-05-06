@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		build.fsx = build.fsx
 		CHANGELOG.md = CHANGELOG.md
 		README.md = README.md
-		SorceHeader.cs = SorceHeader.cs
+		SourceHeader.cs = SourceHeader.cs
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConcurrencyUtilities.Benchmarks", "Tests\ConcurrencyUtilities.Benchmarks\ConcurrencyUtilities.Benchmarks.csproj", "{C3DD8CA7-34FD-4A64-8179-1D6C303BE016}"

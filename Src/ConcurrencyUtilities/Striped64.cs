@@ -12,7 +12,6 @@
  */
 
 using System;
-using System.Linq;
 using System.Threading;
 // ReSharper disable TooWideLocalVariableScope
 
@@ -171,7 +170,17 @@ namespace ConcurrencyUtilities
         {
             var cells = instance.Cells;
             var cellsLength = cells != null ? cells.Length : 0;
-            var nonNullCells = cellsLength > 0 ? cells.Count(c => c != null) : 0;
+            var nonNullCells = 0;
+            if (cells != null)
+            {
+                foreach (var cell in cells)
+                {
+                    if (cell != null)
+                    {
+                        nonNullCells++;
+                    }
+                }
+            }
 
             return AtomicLong.SizeInBytes + // base
                    sizeof(int) + // cellsBusy

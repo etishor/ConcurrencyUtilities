@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using System.Threading;
+﻿using System.Threading;
 
 namespace ConcurrencyUtilities
 {
@@ -15,7 +14,7 @@ namespace ConcurrencyUtilities
         /// <summary>
         /// The size in bytes occupied by an instance of this type
         /// </summary>
-        public static readonly int SizeInBytes = Marshal.SizeOf(typeof(VolatileDouble));
+        public static readonly int SizeInBytes = 8;
 
         private double value;
 

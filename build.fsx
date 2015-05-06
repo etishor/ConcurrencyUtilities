@@ -75,7 +75,7 @@ Target "RunTests" (fun _ ->
 )
 
 let processSourceFile content = 
-    let header = File.ReadAllText "SorceHeader.cs"
+    let header = File.ReadAllText "SourceHeader.cs"
     replace "namespace ConcurrencyUtilities" "namespace $rootnamespace$.ConcurrencyUtilities" content 
     |> replace "    public struct " "#if CONCURRENCY_UTILS_PUBLIC\r\npublic\r\n#else\r\ninternal\r\n#endif\r\n    struct "
     |> replace "    public sealed class " "#if CONCURRENCY_UTILS_PUBLIC\r\npublic\r\n#else\r\ninternal\r\n#endif\r\n    sealed class "

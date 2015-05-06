@@ -15,7 +15,7 @@ namespace ConcurrencyUtilities
         /// <summary>
         /// The size in bytes occupied by an instance of this type
         /// </summary>
-        public static readonly int SizeInBytes = Marshal.SizeOf(typeof(AtomicInteger));
+        public static readonly int SizeInBytes = 4;
 
         private int value;
 

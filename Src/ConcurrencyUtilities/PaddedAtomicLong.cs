@@ -11,7 +11,7 @@ namespace ConcurrencyUtilities
     [StructLayout(LayoutKind.Explicit, Size = 64 * 2)]
     public struct PaddedAtomicLong : AtomicValue<long>, ValueAdder<long>
     {
-        public static readonly int SizeInBytes = Marshal.SizeOf(typeof(AtomicLong));
+        public static readonly int SizeInBytes = 128;
 
         [FieldOffset(64)]
         private long value;
