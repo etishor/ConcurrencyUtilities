@@ -63,6 +63,7 @@
     <Compile Include="PaddedAtomicLongTests.cs" />
     <Compile Include="AtomicLongTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThreadLocalTests.cs" />
     <Compile Include="VolatileTests.cs" />
   </ItemGroup>
   <ItemGroup>
