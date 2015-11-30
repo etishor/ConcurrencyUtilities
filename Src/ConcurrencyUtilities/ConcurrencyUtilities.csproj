@@ -46,6 +46,7 @@
     <Compile Include="AtomicLong.cs" />
     <Compile Include="AtomicIntArray.cs" />
     <Compile Include="AtomicLongArray.cs" />
+    <Compile Include="LongMaxUpdater.cs" />
     <Compile Include="StripedLongAdder.cs" />
     <Compile Include="PaddedAtomicLong.cs" />
     <Compile Include="Striped64.cs" />
